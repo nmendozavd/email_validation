@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Email List</title>
+  </head>
+  <body>
+    <div id="wrapper">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div id="message-area">
+            {% for message in messages %}
+              <h3 class="success-message">{{ message }}</h3>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <div id="email-list">
+        <h1>Email Addresses Entered:</h1>
+        <table cellspacing=0 border=1 cellpadding=10>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Date Added</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for email in all_emails %}
+          <tr>
+            <td>{{ email['id']}}</td>
+            <td>{{email['email']}}</td>
+            <td>{{ email['created_at'] }}</td>
+            <td>
+              <form action="/emails/{{ email['id'] }}/delete" method="post">
+                <input class="delete-button" type="submit" value="DELETE">
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+        <form action="/">
+          <input id="back-button" type="submit" value="Back">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
