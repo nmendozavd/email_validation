@@ -41,13 +41,15 @@ def display_email_list():
 
     emails = mysql.query_db("SELECT id, email, DATE_FORMAT(created_at, '%m/%d/%Y %l:%i %p') as created_at  from emails")
     # print emails
-    return render_template('index.html', all_emails=emails)
+    return render_template('emails.html', all_emails=emails)
 
-@app.route('/emails/<email_id>/delete')
+@app.route('/emails/<email_id>/delete', methods=['POST'])
 def delete_user(email_id):
-    data = {'email_id': email_id}
-    query = 'DELETE FROM users WHERE id = :email_id'
+    query = 'DELETE FROM emails WHERE id = :id'
+    data = {'id': email_id}
     mysql.query_db(query, data)
+    print "e-mail removed from database"
     return redirect('/')
 
 app.run(debug=True)
+
